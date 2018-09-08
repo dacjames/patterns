@@ -1,9 +1,9 @@
 # Enums
 
-The enums package documents how to build progressively more advandeced enum types.
+The enums package documents how to build progressively more advanced enum types.
 
 See [enums.go](/pkg/enums/enums.go) for documented enum definitions.
-See [enums_example_test.go](/pkg/enums/enums_example_test.go) for testable enum usage example.
+See [enums_example_test.go](/pkg/enums/enums_exampe_test.go) for testable enum usage example.
 
 
 Three "levels" of enums are defined.

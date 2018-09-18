@@ -6,4 +6,4 @@ On the surface, Go's system of structs and interfaces can seem primitive compare
 - [x] [Enums](pkg/enums/README.md)
 - [ ] Inheritance
 - [ ] Tagged unions (aka sum type or variant type)
-
+- [ ] [Protected](pkg/protected/README.md)

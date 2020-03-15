@@ -5,19 +5,37 @@ import (
 	"math"
 )
 
+// Shape represents the "base" or "parent" class in traditional OO
 type Shape struct {
+	// THis is where the magic happens. We're embedding an interface member
+	// of this struct, so when Go resolves method calls, it will check for them
+	// on this embedded interface. When constructing the "child" classes,
+	// we set this embedded interface equal to a pointer to the struct itself.
+	// This sets up the method resolution chain to match the inheritance relationship
+	// that we're interested in.
 	Shapely
 }
 
+// Shapely is the interface of methods that we want to be inheritable.
 type Shapely interface {
 	Name() string
 	Area() int
 }
 
+// Name() implements the default implementation on the parent type.
 func (*Shape) Name() string {
 	return "Unnamed"
 }
 
+// Note that Shape does NOT define the Area method. This is done
+// to demonstrate what happens when the child does not implement the expected method.
+
+// Describe is the method that needs to reference the method implementations in the children
+// types. If normal embedding were used, these methods would resolve on only the Shape type,
+// not on Circle or Rectange that embed Shape. Using this pattern, methods will instead resolve
+// via the embedded `Shapely` interface, which is set to reference the child type.
+// This method simulates any time you want generic functinality to be implemented in terms
+// of type-specific functionality.
 func (s *Shape) Describe() string {
 	return fmt.Sprintf("Shape: %s, Area: %d", s.Name(), s.Area())
 }
@@ -75,7 +93,7 @@ func (s *Square) Area() int {
 }
 
 func BadNewSquare(s int) *Square {
-	// you get a nil pointer panic you don't construct properly
+	// you get a nil pointer panic in .Describe()
 	return &Square{Side: s}
 }
 
@@ -85,6 +103,13 @@ type BadTriangle struct {
 	Height int
 }
 
+// Note that we do not implement either the Name() or Area() methods.
+// The Name() method will resolve to the "default" implementation defined
+// on the Shape type. Trying to resolve the  missing Area() method will
+// result in an infinite recursion:
+//   BadTriange.Area() => BadTriangle.Shape.Area()
+//   => Shape.Shapely.Area() => BadTriangle.Area() => ...
+// The recursion here results from setting the
 func NewTriangle(w, h int) *BadTriangle {
 	// you get a nil pointer panic you don't construct properly
 	t := &BadTriangle{Width: w, Height: h}

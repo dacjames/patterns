@@ -3,7 +3,7 @@ package friend
 import (
 	"unsafe"
 
-	"github.com/dacjames/patterns/owner"
+	"github.com/dacjames/patterns/pkg/protected/owner"
 )
 
 type extractor struct {

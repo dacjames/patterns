@@ -22,12 +22,7 @@ type Shapely interface {
 	Area() int
 }
 
-// Name() implements the default implementation on the parent type.
-func (*Shape) Name() string {
-	return "Unnamed"
-}
-
-// Note that Shape does NOT define the Area method. This is done
+// Note that Shape does NOT define the Area or Name method. This is done
 // to demonstrate what happens when the child does not implement the expected method.
 
 // Describe is the method that needs to reference the method implementations in the children
@@ -104,8 +99,7 @@ type BadTriangle struct {
 }
 
 // Note that we do not implement either the Name() or Area() methods.
-// The Name() method will resolve to the "default" implementation defined
-// on the Shape type. Trying to resolve the  missing Area() method will
+// Trying to resolve the missing method will
 // result in an infinite recursion:
 //   BadTriange.Area() => BadTriangle.Shape.Area()
 //   => Shape.Shapely.Area() => BadTriangle.Area() => ...

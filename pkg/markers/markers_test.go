@@ -40,3 +40,13 @@ func TestMarkersEval(t *testing.T) {
 		}
 	}
 }
+
+func TestMarkersQuery(t *testing.T) {
+	expected := " SELECT username, email  FROM users  SORT BY username  ORDER BY email "
+	if res := ExampleSQL(); res != expected {
+		t.Logf("%s", res)
+		t.Log("!=")
+		t.Logf("%s", expected)
+		t.Fail()
+	}
+}
